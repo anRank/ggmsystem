@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow:hidden;">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body scroll="auto">
+<div id="app">
+<nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href={{ url_for('web.g_home') }}>Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+              <li><a href={{ url_for('web.clist_for_g') }}>课程</a></li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+              <li><a href="{{ url_for('web.g_report') }}">学术交流</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href={{ url_for('web.logout') }}>注销</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+          <form action="{{ url_for('web.g_report_commit') }}" method="post">
+            <div class="form-group">
+                <label>学术交流活动名称</label>
+                <input type="text" class="form-control" name="activity">
+            </div>
+            <div class="form-group">
+                <label>报告中文名称</label>
+                <input type="text" class="form-control" name="c_name">
+            </div>
+            <div class="form-group">
+                <label>报告英文名称</label>
+                <input type="text" class="form-control" name="e_name">
+            </div>
+            <div class="form-group">
+                <label>简介</label>
+                <input type="text" class="form-control" name="intro">
+            </div>
+            <div class="form-group">
+                <label>附件</label>
+                <input type="text" class="form-control" name="attachment">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <div>
+
+    </div>
+</div>
+</body>
+</html>

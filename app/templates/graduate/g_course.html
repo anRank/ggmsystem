@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href={{ url_for('web.g_home') }}>Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+              <li><a href={{ url_for('web.clist_for_g') }}>课程</a></li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                      <li><a href="#">Action</a></li>
+                      <li><a href="#">Another action</a></li>
+                      <li><a href="#">Something else here</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href=url_for('web.logout') }}>Separated link</a></li>
+                  </ul>
+              </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div>
+        <div>
+
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <th>课程编号</th><th>课程名称</th><th>学时</th><th>选课人数</th><th>开始时间</th><th>授课教师</th><th>所属学科</th><th>操作</th>
+                </tr>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ course.number }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.hours }}</td>
+                    <td>{{ course.selected_num }}</td>
+                    <td>{{ course.start_date }}</td>
+                    <td>{{ course.teacher.name }}</td>
+                    <td>{{ course.subject.name }}</td>
+                    <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                        选择
+                    </button></td>
+                </tr>
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        确认选择
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ url_for('web.g_wish_commit') }}" method="post">
+                                        <input type="hidden" name='username' value="{{ current_user.username }}">
+                                        <input type="hidden" name='course_id' value="{{ course.id }}">
+                                        <div class="radio">
+                                            <label><input type="radio" name="wish" value="1">志愿1</label>
+                                        </div>
+                                        <div class="radio">
+                                            <label><input type="radio" name="wish" value="2">志愿2</label>
+                                        </div>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="submit" class="btn btn-primary">确认</button>
+                                    </form>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
