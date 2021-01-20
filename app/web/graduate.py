@@ -4,7 +4,7 @@ from app.web import web
 from flask import render_template, request, redirect, url_for
 
 from models.base import db
-from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report
+from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, User
 
 
 @web.route('/graduate_list')
@@ -39,6 +39,9 @@ def graduate_add():
                         tele=tele,
                         mentor_id=mentor_id)
     db.session.add(graduate)
+    db.session.commit()
+    user = User(username=name, account=cardid, password=0, isgraduate=1, isteacher=0, ismanager=0, ishead=0, ismentor=0)
+    db.session.add(user)
     db.session.commit()
     return redirect(url_for('web.graduate_list'))
 

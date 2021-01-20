@@ -113,10 +113,7 @@ class Subject(db.Model):
     intro = db.Column(db.TEXT)
     # 要求交流次数
     c_times = db.Column(db.Integer)
-    # 负责人的id
-    hof_id = db.Column(db.Integer, db.ForeignKey('head.id'))
-    hofs = db.relationship('Head', backref=db.backref('subject'))
-
+    
 
 class Report(db.Model):
     __tablename__ = 'report'

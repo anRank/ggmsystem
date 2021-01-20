@@ -93,6 +93,11 @@
             {% endfor %}
         </table>
     </div>
+    <div>
+        <form action="{{ url_for('web.set_times') }}" method="post">
+            设置学术交流次数: <input style="width: 30px;" name="times" value="{{ subject.c_times }}"> 次 <button>设置</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

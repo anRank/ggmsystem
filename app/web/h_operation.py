@@ -17,7 +17,8 @@ def h_home():
         # 学科下的课程
         'courses': Course.query.filter_by(subject_id=my_s_id).all(),
         # 学科下的导师
-        'mentors': Teacher.query.filter_by(ismentor=1, subject_id=my_s_id).all()
+        'mentors': Teacher.query.filter_by(ismentor=1, subject_id=my_s_id).all(),
+        'subject': Subject.query.filter_by(id=my_s_id).first()
     }
     return render_template('head/h_home.html', **context)
 
@@ -28,3 +29,18 @@ def h_mentor_g(m_id):
         'graduates': Graduate.query.filter_by(mentor_id=m_id).all()
     }
     return render_template('head/h_mentor_gs.html', **context)
+
+
+@web.route('/set_times', methods=['GET', 'POSt'])
+def set_times():
+    if request.method == 'GET':
+        'post plz'
+    else:
+        times = request.form.get('times')
+    subjects = Subject.query.all()
+    for subject in subjects:
+        if subject.hofs.who.name == current_user.username:
+            s = subject
+    s.c_times = times
+    db.session.commit()
+    return redirect(url_for('web.h_home'))

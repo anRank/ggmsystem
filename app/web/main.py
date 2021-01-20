@@ -29,7 +29,7 @@ def login():
     #     return redirect(url_for('web.g_home'))
     # elif user.isteacher:
     #     return redirect(url_for('web.t_home'))
-    user = User.query.filter_by(id=1).first()
+    user = User.query.filter_by(id=5).first()
     login_user(user, remember=True)
     return redirect(url_for('web.home'))
 
