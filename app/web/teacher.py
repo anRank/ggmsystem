@@ -44,6 +44,7 @@ def teacher_add():
         db.session.add(head)
     if ismentor == '1':
         mentor = Mentor(mteacher_id=t_id)
+        db.session.add(mentor)
     user = User(username=name, account=worknum, password=0, isgraduate=0, isteacher=1, ismanager=0, ismentor=ismentor, ishead=ishead)
     db.session.add(user)
     db.session.commit()

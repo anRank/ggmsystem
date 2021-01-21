@@ -10,28 +10,25 @@ from models.ggm import Manager, Teacher, Graduate, User
 
 @web.route('/')
 @login_required
-def home():
-    return render_template('manager/home.html')
+def hello():
+    return render_template('test.html')
 
 
 @web.route('/login', methods=['GET', 'POST'])
 def login():
-    # if request.method == 'GET':
-    #     return render_template('login.html')
-    # else:
-    #     id = request.form.get('id')
-    #     password = request.form.get('password')
-    # user = User.query.filter_by(id=id, password=password).first()
-    # login_user(user, remember=True)
-    # if user.ismanager:
-    #     return redirect(url_for('web.home'))
-    # elif user.isgraduate:
-    #     return redirect(url_for('web.g_home'))
-    # elif user.isteacher:
-    #     return redirect(url_for('web.t_home'))
-    user = User.query.filter_by(id=5).first()
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        account = request.form.get('account')
+        password = request.form.get('password')
+    user = User.query.filter_by(account=account, password=password).first()
     login_user(user, remember=True)
-    return redirect(url_for('web.home'))
+    if user.ismanager:
+        return redirect(url_for('web.manager_home'))
+    elif user.isgraduate:
+        return redirect(url_for('web.g_home'))
+    elif user.isteacher:
+        return redirect(url_for('web.t_home'))
 
 
 @web.route('/logout')

@@ -31,12 +31,12 @@ def graduate_add():
         birth = request.form.get('birth')
         admissiondate = request.form.get('admissiondate')
         email = request.form.get('email')
-        tele = request.form.get('start_date')
+        tele = request.form.get('tele')
         mentor = request.form.get('mentor')
-
+    print(mentor)
     mentor_id = Teacher.query.filter_by(name=mentor).first().mentor[0].id
     graduate = Graduate(name=name, cardid=cardid, birth=birth, admissiondate=admissiondate, sex=sex, email=email,
-                        tele=tele,
+                        tele=tele, password=0,
                         mentor_id=mentor_id)
     db.session.add(graduate)
     db.session.commit()

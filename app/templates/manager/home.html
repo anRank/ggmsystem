@@ -24,7 +24,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href={{ url_for('web.home') }}>Home</a>
+          <a class="navbar-brand" href={{ url_for('web.manager_home') }}>Home</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,13 +56,29 @@
                 <li><a href="#">Another action</a></li>
                 <li><a href="#">Something else here</a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href={{ url_for('web.logout') }}>Separated link</a></li>
+                <li><a href={{ url_for('web.logout') }}>注销</a></li>
               </ul>
             </li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
+    <div>
+        学科列表：
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th>学科名称</th><th>学科简介</th><th>要求学术交流次数</th><th>操作</th>
+            </tr>
+            {% for subject in subjects %}
+                <tr>
+                    <td>{{ subject.name }}</td>
+                    <td>{{ subject.intro }}</td>
+                    <td>{{ subject.c_times }}</td>
+                    <td><a href="#">修改</a> <a href="#">删除</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 </body>
 </html>

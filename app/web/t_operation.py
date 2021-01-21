@@ -13,7 +13,7 @@ def t_home():
     # 展示选择自己所教课程的志愿列表，并进行通过确认
     wishes = []
     for wish in Wish.query.all():
-        if wish.course.teacher_id == current_user.id:
+        if wish.course.teacher.name == current_user.username:
             wishes.append(wish)
     context = {
         'wishes': wishes
