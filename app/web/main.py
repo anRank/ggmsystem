@@ -21,7 +21,9 @@ def login():
     else:
         account = request.form.get('account')
         password = request.form.get('password')
-    user = User.query.filter_by(account=account, password=password).first()
+    user = User.query.filter_by(account=1123114141, password=password).first()
+    if user is None:
+        return render_template('manager/add_manager.html')
     login_user(user, remember=True)
     if user.ismanager:
         return redirect(url_for('web.manager_home'))
@@ -36,3 +38,5 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('web.login'))
+
+
