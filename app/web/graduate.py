@@ -1,7 +1,7 @@
 from flask_login import current_user
 
 from app.web import web
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 
 from models.base import db
 from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, User
@@ -66,6 +66,11 @@ def g_wish_commit():
         course_id = request.form.get('course_id')
         wish_n = request.form.get('wish')
     graduate = Graduate.query.filter_by(name=username).first()
+    for wish in graduate.wish:
+        if wish.status == 1:
+            flash('你的选课已经被通过了')
+            return redirect(url_for('web.g_home'))
+    print(course_id)
     wish = Wish(wish_n=wish_n, graduate_id=graduate.id, course_id=course_id)
     db.session.add(wish)
     db.session.commit()

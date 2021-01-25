@@ -24,10 +24,24 @@ def t_home():
 
 @web.route('/t_wish_pass/<wish_id>')
 def t_wish_pass(wish_id):
+    # 通过志愿
     wish = Wish.query.filter_by(id=wish_id).first()
-    wish.status = 1
-    db.session.commit()
-    return redirect(url_for('web.t_home'))
+    # 如果该助教已被其他课程选定，则不进行改变
+    graduate_id = wish.graduate_id
+    courses = Course.query.all()
+    for course in courses:
+        if course.graduate_id == graduate_id:
+            # 该助教已经被其他课程选中
+            return redirect(url_for('web.t_home'))
+    # 进行判断，如果该课程已有助教
+    if wish.course.graduate_id is None:
+        wish.status = 1
+        # 通过一个助教志愿后，该课程将与研究生绑定
+        wish.course.graduate_id = wish.graduate_id
+        db.session.commit()
+        return redirect(url_for('web.t_home'))
+    else:
+        return redirect(url_for('web.t_home'))
 
 
 @web.route('/t_course_add_page')

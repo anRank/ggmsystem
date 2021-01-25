@@ -69,9 +69,13 @@
                     <td>{{ course.start_date }}</td>
                     <td>{{ course.teacher.name }}</td>
                     <td>{{ course.subject.name }}</td>
-                    <td><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-                        选择
-                    </button></td>
+                    {% if course.graduate_id == None %}
+                        <td><button onclick="wishCommit({{ course.id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                            选择
+                        </button></td>
+                    {% else %}
+                        <td>已满</td>
+                    {% endif %}
                 </tr>
                     <!-- 模态框（Modal） -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -88,7 +92,7 @@
                                 <div class="modal-body">
                                     <form action="{{ url_for('web.g_wish_commit') }}" method="post">
                                         <input type="hidden" name='username' value="{{ current_user.username }}">
-                                        <input type="hidden" name='course_id' value="{{ course.id }}">
+                                        <input type="hidden" id="course_id" name='course_id'>
                                         <div class="radio">
                                             <label><input type="radio" name="wish" value="1">志愿1</label>
                                         </div>
@@ -108,4 +112,10 @@
     </div>
 </div>
 </body>
+<script>
+function wishCommit(id)
+{
+    document.getElementById("course_id").value = id
+}
+</script>
 </html>
