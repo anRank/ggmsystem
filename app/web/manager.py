@@ -31,3 +31,20 @@ def add_manager():
     db.session.add(user)
     db.session.commit()
     return render_template('login.html')
+
+
+@web.route('/add_subject', methods=['GET', 'POST'])
+def add_subject():
+    if request.method == 'GET':
+        return 'post plz'
+    else:
+        name = request.form.get('name')
+        intro = request.form.get('intro')
+        c_times = request.form.get('c_times')
+    subject = Subject(name=name, intro=intro, c_times=c_times)
+    db.session.add(subject)
+    db.session.commit()
+    context = {
+        'subjects': Subject.query.all()
+    }
+    return render_template('manager/home.html', **context)
