@@ -40,15 +40,12 @@
           </form>
           <ul class="nav navbar-nav navbar-right">
               {% if current_user.ismentor %}
-                  <li><a href="{{ url_for('web.m_home') }}">导师系统</a></li>
-              {% else %}
-              {% endif %}
-              {% if current_user.ishead %}
+                  <li><a href="{{ url_for('web.m_home') }}">助教系统</a></li>
+              {% elif current_user.ishead %}
                   <li><a href="{{ url_for('web.h_home') }}">学科负责人系统</a></li>
               {% else %}
 
               {% endif %}
-              <li><a href="{{ url_for('web.ta_list') }}">助教系统</a></li>
               <li><a href="{{ url_for('web.t_course_add_page') }}">添加课程</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>
@@ -65,35 +62,18 @@
       </div><!-- /.container-fluid -->
     </nav>
     <div>
-        志愿列表:
-        <table class="table table-hover table-bordered">
-            <tr>
-                <th>课程名称</th><th>助教名称</th><th>志愿几</th><th>状态</th><th>操作</th>
-            </tr>
-            {% for wish in wishes %}
-                <tr>
-                    <td>{{ wish.course.name }}</td>
-                    <td>{{ wish.graduate.name }}</td>
-                    <td>{{ wish.wish_n }}</td>
-                    <td>{{ wish.status }}</td>
-                    <td><a href="{{ url_for('web.t_wish_pass', wish_id=wish.id) }}">通过</a>
-                </tr>
-            {% endfor %}
-            </table>
-    </div>
-    <div>
         我的课程:
         <table class="table table-hover table-bordered">
             <tr>
-                <th>课程名称</th><th>课程编号</th><th>学时</th><th>选课人数</th><th>开始时间</th>
+                <th>助教姓名</th><th>性别</th><th>邮箱</th><th>联系方式</th><th>课程</th>
             </tr>
             {% for course in courses %}
                 <tr>
+                    <td>{{ course.graduate.name }}</td>
+                    <td>{{ course.graduate.sex }}</td>
+                    <td>{{ course.graduate.email }}</td>
+                    <td>{{ course.graduate.tele }}</td>
                     <td>{{ course.name }}</td>
-                    <td>{{ course.number }}</td>
-                    <td>{{ course.hours }}</td>
-                    <td>{{ course.selected_num }}</td>
-                    <td>{{ course.start_term }}</td>
                 </tr>
             {% endfor %}
             </table>

@@ -15,8 +15,13 @@ def t_home():
     for wish in Wish.query.all():
         if wish.course.teacher.name == current_user.username:
             wishes.append(wish)
+    courses = []
+    for course in Course.query.all():
+        if course.teacher.name == current_user.username:
+            courses.append(course)
     context = {
-        'wishes': wishes
+        'wishes': wishes,
+        'courses': courses
     }
     # 助教工作评价
     return render_template('teacher/t_home.html', **context)
@@ -47,3 +52,16 @@ def t_wish_pass(wish_id):
 @web.route('/t_course_add_page')
 def t_course_add_page():
     return render_template('teacher/t_addcourse.html')
+
+
+@web.route('/ta_list')
+def ta_list():
+    # 该老师教授的所有课程
+    courses = []
+    for course in Course.query.all():
+        if course.teacher.name == current_user.username:
+            courses.append(course)
+    context = {
+        'courses': courses
+    }
+    return render_template('teacher/ta_list.html', **context)
