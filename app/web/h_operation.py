@@ -9,8 +9,8 @@ from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, A
 
 # 所负责学科下的课程查看
 # 查看学科下导师的研究生情况
-@web.route('/h_home')
-def h_home():
+@web.route('/head_home')
+def head_home():
     # 所负责的学科的id
     my_s_id = Teacher.query.filter_by(name=current_user.username).first().subject.id
     context = {
@@ -38,9 +38,10 @@ def set_times():
     else:
         times = request.form.get('times')
     subjects = Subject.query.all()
+    teacher = Teacher.query.filter_by(name=current_user.username).first()
     for subject in subjects:
-        if subject.hofs.who.name == current_user.username:
+        if subject.name == teacher.subject.name:
             s = subject
     s.c_times = times
     db.session.commit()
-    return redirect(url_for('web.h_home'))
+    return redirect(url_for('web.head_home'))

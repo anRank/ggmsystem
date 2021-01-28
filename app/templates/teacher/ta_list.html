@@ -40,9 +40,9 @@
           </form>
           <ul class="nav navbar-nav navbar-right">
               {% if current_user.ismentor %}
-                  <li><a href="{{ url_for('web.m_home') }}">助教系统</a></li>
+                  <li><a href="{{ url_for('web.mentor_home') }}">助教系统</a></li>
               {% elif current_user.ishead %}
-                  <li><a href="{{ url_for('web.h_home') }}">学科负责人系统</a></li>
+                  <li><a href="{{ url_for('web.head_home') }}">学科负责人系统</a></li>
               {% else %}
 
               {% endif %}
@@ -65,7 +65,7 @@
         我的课程:
         <table class="table table-hover table-bordered">
             <tr>
-                <th>助教姓名</th><th>性别</th><th>邮箱</th><th>联系方式</th><th>课程</th>
+                <th>助教姓名</th><th>性别</th><th>邮箱</th><th>联系方式</th><th>课程</th><td>操作</td>
             </tr>
             {% for course in courses %}
                 <tr>
@@ -74,7 +74,29 @@
                     <td>{{ course.graduate.email }}</td>
                     <td>{{ course.graduate.tele }}</td>
                     <td>{{ course.name }}</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal">评价</button></td>
                 </tr>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">助教评价</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ url_for('web.t_evaluate') }}" method="post">
+                                    <div class="form-group">
+                                        <label>评价内容</label>
+                                        <input type="textarea" class="form-control" name="content">
+                                    </div>
+                                    <input hidden name="graduate_id" value="{{ course.graduate.id }}">
+                                    <button class="btn btn-primary" type="submit">提交</button>
+                                </form>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
             {% endfor %}
             </table>
     </div>

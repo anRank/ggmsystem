@@ -40,12 +40,13 @@
           </form>
           <ul class="nav navbar-nav navbar-right">
               {% if current_user.ismentor %}
-                  <li><a href="{{ url_for('web.m_home') }}">导师系统</a></li>
+                  <li><a href="{{ url_for('web.mentor_home') }}">导师系统</a></li>
               {% elif current_user.ishead %}
-                  <li><a href="{{ url_for('web.h_home') }}">学科负责人系统</a></li>
+                  <li><a href="{{ url_for('web.head_home') }}">学科负责人系统</a></li>
               {% else %}
 
               {% endif %}
+                <li><a href="{{ url_for('web.ta_list') }}">助教系统</a></li>
               <li><a href="{{ url_for('web.t_course_add_page') }}">添加课程</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>

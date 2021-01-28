@@ -4,7 +4,7 @@ from app.web import web
 from flask import render_template, request, redirect, url_for
 
 from models.base import db
-from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report
+from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, Evaluation
 
 
 @web.route('/t_home')
@@ -24,6 +24,7 @@ def t_home():
         'courses': courses
     }
     # 助教工作评价
+    print(321)
     return render_template('teacher/t_home.html', **context)
 
 
@@ -65,3 +66,17 @@ def ta_list():
         'courses': courses
     }
     return render_template('teacher/ta_list.html', **context)
+
+
+@web.route('/t_evaluate', methods=['GET', 'POST'])
+def t_evaluate():
+    if request.method == 'GET':
+        return 'post plz'
+    else:
+        graduate_id = request.form.get('graduate_id')
+        content = request.form.get('content')
+    teacher = Teacher.query.filter_by(worknum=current_user.account).first()
+    evaluation = Evaluation(content=content, graduate_id=graduate_id, eteacher_id=teacher.id)
+    db.session.add(evaluation)
+    db.session.commit()
+    return redirect(url_for('web.ta_list'))

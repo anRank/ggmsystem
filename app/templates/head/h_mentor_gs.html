@@ -46,6 +46,7 @@
               {% else %}
 
               {% endif %}
+              <li><a href="{{ url_for('web.ta_list') }}">助教系统</a></li>
               <li><a href="{{ url_for('web.t_course_add_page') }}">添加课程</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ current_user.username }}<span class="caret"></span></a>
