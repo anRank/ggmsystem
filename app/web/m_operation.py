@@ -17,7 +17,7 @@ def mentor_home():
     context = {
         'graduates': Graduate.query.filter_by(mentor_id=my_id).all()
     }
-    return render_template('mentor/mentor_home.html', **context)
+    return render_template('mentor/m_home.html', **context)
 
 
 @web.route('/view_report/<g_id>/')

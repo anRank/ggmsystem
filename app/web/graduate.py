@@ -4,7 +4,7 @@ from app.web import web
 from flask import render_template, request, redirect, url_for, flash
 
 from models.base import db
-from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, User
+from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, User, Project
 
 
 @web.route('/graduate_list')
@@ -49,10 +49,12 @@ def graduate_add():
 @web.route('/g_home')
 def g_home():
     username = current_user.username
-    id = Graduate.query.filter_by(name=username).first().id
+    graduate = Graduate.query.filter_by(name=username).first()
+    id = graduate.id
     context = {
         'wishes': Wish.query.filter_by(graduate_id=id).all(),
-        'reports': Report.query.filter_by(graduate_id=id).all()
+        'reports': Report.query.filter_by(graduate_id=id).all(),
+        'project': graduate.project
     }
     return render_template('graduate/g_home.html', **context)
 

@@ -4,7 +4,7 @@ from app.web import web
 from flask import render_template, request, redirect, url_for
 
 from models.base import db
-from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, Evaluation
+from models.ggm import Course, Head, Teacher, Subject, Mentor, Graduate, Wish, Activity, Report, Evaluation, Project
 
 
 @web.route('/t_home')
@@ -19,9 +19,14 @@ def t_home():
     for course in Course.query.all():
         if course.teacher.name == current_user.username:
             courses.append(course)
+    projects = []
+    for project in Project.query.all():
+        if project.teacher.name == current_user.username:
+            projects.append(project)
     context = {
         'wishes': wishes,
-        'courses': courses
+        'courses': courses,
+        'projects': projects
     }
     # 助教工作评价
     print(321)
@@ -80,3 +85,43 @@ def t_evaluate():
     db.session.add(evaluation)
     db.session.commit()
     return redirect(url_for('web.ta_list'))
+
+
+@web.route('/add_project', methods=['GET', 'POST'])
+def add_project():
+    if request.method == 'GET':
+        return 'post plz'
+    else:
+        name = request.form.get('name')
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        funds = request.form.get('funds')
+    teacher = Teacher.query.filter_by(worknum=current_user.account).first()
+    project = Project(start_date=start_date, end_date=end_date, name=name, funds=funds, status=0, pteacher_id=teacher.id)
+    db.session.add(project)
+    db.session.commit()
+    return redirect(url_for('web.t_home'))
+
+
+@web.route('/project_detail/<id>')
+def project_detail(id):
+    project = Project.query.filter_by(id=id).first()
+    graduates = Graduate.query.filter_by(project_id=id).all()
+    context = {
+        'project': project,
+        'graduates': graduates
+    }
+    return render_template('teacher/project_detail.html', **context)
+
+
+@web.route('/project_add_g/<id>', methods=['GET', 'POST'])
+def project_add_g(id):
+    if request.method == 'GET':
+        return 'post plz'
+    else:
+        name = request.form.get('name')
+        cardid = request.form.get('cardid')
+    graduate = Graduate.query.filter_by(name=name, cardid=cardid).first()
+    graduate.project_id = id
+    db.session.commit()
+    return redirect(url_for('web.project_detail', id=id))

@@ -98,6 +98,62 @@
             {% endfor %}
             </table>
     </div>
+    <div>
+        我的项目:
+        <button class="btn btn-primary" style="float: right" data-toggle="modal" data-target="#addProject">添加项目</button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="addProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            添加姓名
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('web.add_project') }}", method="post">
+                            <div class="form-group">
+                                <label>项目名称</label>
+                                <input type="text" class="form-control" name="name"  placeholder="项目名称">
+                            </div>
+                            <div class="form-group">
+                                <label>开始日期</label>
+                                <input type="datetime-local" class="form-control" name="start_date"  placeholder="开始日期">
+                            </div>
+                            <div class="form-group">
+                                <label>截止日期</label>
+                                <input type="datetime-local" class="form-control" name="end_date"  placeholder="截止日期">
+                            </div>
+                            <div class="form-group">
+                                <label>科研预算</label>
+                                <input type="text" class="form-control" name="funds"  placeholder="科研预算">
+                            </div>
+                            <button class="btn-primary" type="submit" href="{{ url_for('web.add_project') }}">提交</button>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <table class="table table-hover table-bordered">
+            <tr>
+                <th>项目名称</th><th>开始日期</th><th>截止日期</th><th>科研经费</th><th>状态</th><th>通过日期</th><td>操作</td>
+            </tr>
+            {% for project in projects %}
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.start_date }}</td>
+                    <td>{{ project.end_date }}</td>
+                    <td>{{ project.funds }}</td>
+                    <td>{{ project.status }}</td>
+                    <td>{{ project.approval_time }}</td>
+                    <td><a href="{{ url_for('web.project_detail', id=project.id) }}">详情</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+    </div>
 </div>
 </body>
 </html>

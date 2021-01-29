@@ -91,6 +91,19 @@
             {% endfor %}
         </table>
         </div>
+        <div>
+            我参加的项目:
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <tbody>
+                <tr><td>项目名称</td><td>{{ project.name }}</td></tr>
+                <tr><td>开始日期</td><td>{{ project.start_date }}</td></tr>
+                <tr><td>截止日期</td><td>{{ project.end_date }}</td></tr>
+                <tr><td>项目负责人</td><td>{{ project.teacher.name }}</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
