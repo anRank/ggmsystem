@@ -9,9 +9,8 @@ from models.ggm import Manager, Teacher, Graduate, User
 
 
 @web.route('/')
-@login_required
 def hello():
-    return render_template('test.html')
+    return render_template('homepage.html')
 
 
 @web.route('/login', methods=['GET', 'POST'])
@@ -23,7 +22,7 @@ def login():
         password = request.form.get('password')
     user = User.query.filter_by(account=account, password=password).first()
     if user is None:
-        return render_template('manager/add_manager.html')
+        return '账号或密码错误'
     login_user(user, remember=True)
     if user.ismanager:
         return redirect(url_for('web.manager_home'))
